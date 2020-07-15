@@ -14,7 +14,9 @@
 
 #define noBraking 1500               //无制动CCR(比较寄存器)值
 #define maxBraking 2200              //最大制动CCR值
-#define cheatBrakingVal 26 // waiting to be tested
+
+//全局变量
+//由串口中断程序更改其值
 u8 g_brakingVal = 0;
 u8 g_isDriverless = 0;
 

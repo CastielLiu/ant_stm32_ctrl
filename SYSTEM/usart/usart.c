@@ -188,8 +188,7 @@ void uart3_init(u32 bound){
 
 }
 
-
-
+//接收上层控制器发送的控制请求
 void USART1_IRQHandler(void)                	//串口1中断服务程序
 {
 	unsigned char rCh;

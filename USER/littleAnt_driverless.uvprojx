@@ -478,11 +478,6 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\SPI\spi.c</FilePath>
             </File>
-            <File>
-              <FileName>wireless_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\WIRELESS_DATA\wireless_data.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -502,11 +497,6 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\usart\usart.c</FilePath>
-            </File>
-            <File>
-              <FileName>capture.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\SYSTEM\capture\capture.c</FilePath>
             </File>
           </Files>
         </Group>
