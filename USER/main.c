@@ -17,7 +17,7 @@
 
 //全局变量
 //由串口中断程序更改其值
-u8 g_brakingVal = 0;
+u8 g_brakingVal = 0;   //0-100
 u8 g_isDriverless = 0;
 
 /*@brief 写串口
@@ -59,9 +59,10 @@ void system_init()
 	BEEP_Init();        //蜂鸣器初始化
 	KEY_Init();         //按键初始化
 	TIM3_PWM_Init();    //TIM3PWM初始化，控制舵机制动
+	TIM3->CCR1 = noBraking; 
 	//IWDG_Init(0,700); //看门狗
   
-	//printf("初始化完成...\r\n");
+	printf("初始化完成...\r\n");
 }
 
 int main(void)
@@ -85,33 +86,38 @@ int main(void)
 		
 	while(1)
 	{
-		if (emerStopButton==1 || wirelessStopButton==1)//急停开关按下
+		if (autoModeButton==1)//自动驾驶模式开关闭合
 		{
-			pkgID1.emergencyBrake = 1;
-			emergencyBrakeLED = LED_OPEN;
-			expectBrakeCCR = maxBraking;
+			pkgID1.driverlessMode = 1;    //自动驾驶请求置位
+			driverlessModeLED = LED_OPEN; //自动驾驶状态灯open
+			expectBrakeCCR = noBraking+ 1.0*(maxBraking-noBraking)/100*g_brakingVal; //由制动请求换算pwm CCR
 		}
 		else
 		{
-			pkgID1.emergencyBrake = 0;
-			emergencyBrakeLED = LED_CLOSE;
+			pkgID1.driverlessMode = 0;    //自动驾驶模式复位
+			driverlessModeLED = LED_CLOSE;//自动驾驶状态灯close
 			expectBrakeCCR = noBraking;
 		}
 		
-		if (autoModeButton==1)//自动驾驶模式开关闭合
+		if (emerStopButton==1 || wirelessStopButton==1)//急停开关按下
 		{
-			pkgID1.driverlessMode = 1;
-			driverlessModeLED = LED_OPEN;
-			uint16_temp = noBraking+(maxBraking-noBraking)/1000*g_brakingVal; //由制动请求换算pwm CCR
-			expectBrakeCCR = uint16_temp > expectBrakeCCR ? uint16_temp : expectBrakeCCR; //取最大值
+			pkgID1.emergencyBrake = 1;     //急停请求置位
+			emergencyBrakeLED = LED_OPEN;  //开启急停指示灯
+			expectBrakeCCR = maxBraking;   //最大制动力
 		}
-		else
+		else //非急停状态
 		{
-			pkgID1.driverlessMode = 0;
-			driverlessModeLED = LED_CLOSE;
-			expectBrakeCCR = noBraking;
+			pkgID1.emergencyBrake = 0;     //急停请求复位
+			emergencyBrakeLED = LED_CLOSE; //关闭急停指示灯
+			
+			//与之前的期望值比较，若前方期望值较高，以前方值为准
+			expectBrakeCCR = expectBrakeCCR > noBraking ? expectBrakeCCR : noBraking;
 		}
+		
 		TIM_SetCompare1(TIM3,expectBrakeCCR); //设置制动比较值,触发制动
+		
+		//printf("expectBrake: %d\r\n", expectBrakeCCR);
+		//printf("%d\t %d\r\n",g_brakingVal, g_isDriverless);
 		
 		//自动驾驶状态灯
 		if(g_isDriverless == 0)
@@ -129,6 +135,7 @@ int main(void)
 		pkgID1.checkSum = generate_check_sum((uint8_t*)&pkgID1, ID1_BUF_LEN-1);
 		//发送数据
 		write(USART1, (uint8_t*)&pkgID1, ID1_BUF_LEN);
+		
 
 		delay_ms(20);
 	}
