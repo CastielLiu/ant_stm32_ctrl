@@ -77,7 +77,7 @@ int main(void)
 	pkgID1.pkgLen_H  = 0;
 	pkgID1.pkgLen_L  = 4;
 	pkgID1.pkgID     = 0x01;
-	pkgID1.driverlessMode = 0;
+	pkgID1.driverlessKey = 0;
 	pkgID1.emergencyBrake = 0;
 
 	system_init();
@@ -88,13 +88,13 @@ int main(void)
 	{
 		if (autoModeButton==1)//自动驾驶模式开关闭合
 		{
-			pkgID1.driverlessMode = 1;    //自动驾驶请求置位
+			pkgID1.driverlessKey = 1;    //自动驾驶请求置位
 			driverlessModeLED = LED_OPEN; //自动驾驶状态灯open
 			expectBrakeCCR = noBraking+ 1.0*(maxBraking-noBraking)/100*g_brakingVal; //由制动请求换算pwm CCR
 		}
 		else
 		{
-			pkgID1.driverlessMode = 0;    //自动驾驶模式复位
+			pkgID1.driverlessKey = 0;    //自动驾驶模式复位
 			driverlessModeLED = LED_CLOSE;//自动驾驶状态灯close
 			expectBrakeCCR = noBraking;
 		}

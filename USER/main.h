@@ -23,7 +23,7 @@ typedef struct PkgID1
 	uint8_t pkgLen_H;
 	uint8_t pkgLen_L;
 	uint8_t pkgID;
-	uint8_t driverlessMode : 1;
+	uint8_t driverlessKey : 1;
 	uint8_t emergencyBrake : 1;
 	uint8_t reversed1      : 6;
 	uint8_t reversed2;
