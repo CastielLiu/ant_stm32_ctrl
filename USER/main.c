@@ -12,7 +12,7 @@
 #define LED_OPEN 0
 #define LED_CLOSE 1
 
-#define noBraking 1500               //无制动CCR(比较寄存器)值
+#define noBraking 1700               //无制动CCR(比较寄存器)值
 #define maxBraking 2200              //最大制动CCR值
 
 //全局变量
