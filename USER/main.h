@@ -17,7 +17,7 @@
 #include "string.h"
 #include "24l01.h"
 
-typedef struct PkgID1
+typedef struct statePackage
 {
 	uint8_t header[2];
 	uint8_t pkgLen_H;

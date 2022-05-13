@@ -237,8 +237,12 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			}
 			if(RecCheckSum == rCh)
 			{
-				g_brakingVal = RecBuf[5] & 0x7f;
-				g_isDriverless = RecBuf[5] & 0x80;
+				g_requestBrakingVal = RecBuf[5] & 0x7f;
+				if(g_requestBrakingVal > 100){
+					g_requestBrakingVal = 100;
+				}
+				
+				g_requestDriverless = RecBuf[5] & 0x80;
 			}
 		}
 	

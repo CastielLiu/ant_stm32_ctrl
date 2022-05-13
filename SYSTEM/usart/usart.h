@@ -11,8 +11,8 @@ extern u8  USART_RX_BUF[USART_REC_LEN]; //½ÓÊÕ»º³å,×î´óUSART_REC_LEN¸ö×Ö½Ú.Ä©×Ö½
 extern u16 USART_RX_STA;         		//½ÓÊÕ×´Ì¬±ê¼Ç	
 //Èç¹ûÏë´®¿ÚÖĞ¶Ï½ÓÊÕ£¬Çë²»Òª×¢ÊÍÒÔÏÂºê¶¨Òå
 
-extern u8 g_brakingVal;
-extern u8 g_isDriverless;
+extern u8 g_requestBrakingVal;
+extern u8 g_requestDriverless;
 void uart1_init(u32 bound);
 void uart2_init(u32 bound);
 void uart3_init(u32 bound);

@@ -12,5 +12,5 @@ PA1 车身紧急制动
 PC0 无线紧急制动
 PA4 状态灯1
 PA5 状态灯2
-PC6 制动控制PWM
+PC6 制动控制PWM Timer3 CH1
 
